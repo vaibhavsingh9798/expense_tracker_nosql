@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+    <div class="text-center mt-4 p-4 bg-success text-white">
+      <h2>Expense Tracker</h2>
+      <div id="exp-table"></div>
+      <div id="rzp-lb"> </div>
+      <button class="float-right m-1 p-1" id="rzp-button"></button>
+    </div>
+    </div>
+    <div class="container w-50 bg-light">
+    <form id="expenseForm">
+        <div class="form-group mt-5">
+            <div class="text-center mb-4">
+            <!-- <h3>Sign up</h3> -->
+           </div>
+            <label for="eamount">Choose expense amount</label>
+            <input type="number" class="form-control" id="eamount"  placeholder="Expense Amount" required>
+          </div>
+        <div class="form-group">
+          <label for="description">Choose description</label>
+          <input type="text" class="form-control" id="description"  placeholder=" Choose description" required>
+        </div>
+        <div class="form-group">
+          <label for="category">Choose a category</label>
+          <!-- <input type="password" class="form-control" id="category" placeholder=" Password" required> -->
+          <select class="form-control" id="category">
+            <option value="Fuel">Fuel</option>
+            <option value="Food">Food</option>
+            <option value="Electricity">Electricity</option>
+            <option value="Movie">Movie</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-secondry btn-lg btn-block mt-5">Add Expense</button>
+      </form>
+      <ul id="expenses" class="list-group mt-2">
+
+      </ul>
+      <h3 id="lb-title" class="text-center list-group m-3 text-light bg-secondary"></h3>
+      <ul id="leaderboard" class="list-group mt-2 pb-2">
+
+      </ul>
+      <div class="text-center mb-2">
+        <label for="category">Rows per page: </label>
+        <select class="form-select m-2 p-1" id="rowperpage">
+          <option value="2">2</option>
+          <option value="4">4</option>
+          <option value="8">8</option>
+          <option value="16">16</option>
+        </select>
+      </div>
+        <nav aria-label="Page navigation example">
+          <!-- <input type="password" class="form-control" id="category" placeholder=" Password" required> -->
+          
+          <ul class="pagination justify-content-center" id="pagination">
+            <!-- <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">Next</a></li> -->
+          </ul>
+        </nav>
+    </div>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.3.6/axios.min.js" integrity="sha512-06NZg89vaTNvnFgFTqi/dJKFadQ6FIglD6Yg1HHWAUtVFFoXli9BZL4q4EO1UTKpOfCfW5ws2Z6gw49Swsilsg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="../public/JS/expense.js"></script>
+</body>
+</html>
