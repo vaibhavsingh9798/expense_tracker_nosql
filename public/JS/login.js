@@ -27,8 +27,8 @@ const login = async (user)=>{
     }
     catch(error){
         console.error('err',error)
-       success = e.response.data.success
-       errMsg = e.response.data.meassage
+       success = error.response.data.success
+       errMsg = error.response.data.meassage
     }
     if(!success){
         let div = document.getElementById('errmsg')

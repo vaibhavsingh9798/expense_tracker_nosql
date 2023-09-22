@@ -5,17 +5,32 @@
        this.email = email;
        this.password = password
      }
+
    async  save(){
     try{
       console.log('save...',this)
         const db = getDb()
-       let result = await db.collection('expenses').insertOne(this)
+       let result = await db.collection('users').insertOne(this)
        return result
     }catch(err){
       console.log('db query',err)
     }
         
      }
+
+    static  async find(email){
+       const db = getDb()
+       try{
+      let cursor = await db.collection('users').find({"email":email})
+       let documents = null
+      if(cursor)
+       documents = cursor.toArray()
+      return documents
+     }
+     catch(err){
+      console.error(err)
+     }
+    }
  }
 
  exports.User = User;
