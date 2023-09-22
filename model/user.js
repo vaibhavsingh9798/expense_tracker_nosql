@@ -31,6 +31,20 @@
       console.error(err)
      }
     }
+
+    static async  findUserbyID(id){
+      const db = getDb()
+      try{
+     let cursor = await db.collection('users').find({"_id":id})
+      let documents = null
+     if(cursor)
+      documents = cursor.toArray()
+     return documents
+    }
+    catch(err){
+     console.error(err)
+    }
+    }
  }
 
  exports.User = User;

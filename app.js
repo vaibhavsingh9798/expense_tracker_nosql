@@ -11,7 +11,7 @@ require('dotenv').config()
 const  mongodbConnect = require('./util/database').mongodbConnect
 
  const userRoute = require('./route/user')
-// const expenseRoute = require('./route/expense')
+ const expenseRoute = require('./route/expense')
 // const purchaseRoute = require('./route/purchase')
 // const premiumuserRoute = require('./route/premiumuser')
 // const passwordRoute = require('./route/resetpassword')
@@ -29,7 +29,7 @@ const accessLogStream =  fs.createWriteStream(path.join(__dirname,'access.log'),
 app.use(morgan('combined',{stream: accessLogStream}))
 
 app.use('/user',userRoute)
-// app.use('/expense',expenseRoute)
+ app.use('/expense',expenseRoute)
 // app.use('/purchase',purchaseRoute)
 // app.use('/premium',premiumuserRoute)
 // app.use('/password',passwordRoute)

@@ -24,6 +24,7 @@ const login = async (user)=>{
     const resp = await axios.post('http://localhost:3001/user/signin',user)
    // console.log('resp....',resp)
     token = resp.data.token
+    console.log('token',token)
     }
     catch(error){
         console.error('err',error)
@@ -40,6 +41,7 @@ const login = async (user)=>{
     else{
       alert('You are successfully logged in')
       localStorage.setItem('token',token)
-      location.assign('file:///D:/expense_tracker/view/expense.html')
+      //location.assign('D:\expense_tracker_nosql\view\expense.html')
+      window.location.href = "expense.html";
     }
 }

@@ -32,28 +32,31 @@ let getnrateAccessToken = (id)=>{
    const payload = {userId:id}
   return jwt.sign(payload,process.env.SECRET_KEY)
 }
+
 exports.signin = async (req,res)=>{
     const {email,password} = req.body;
    // console.log('data..',email,password)
     try{
      let user = await User.find(email)
      user = user[0]
+      let userId = await User.findUserbyID(user._id)
      console.log('user...',user)
+     console.log('userId...',userId)
     if(!user){
       res.status(404).json({success:false,meassage:"The email address you entered isn't connected to an account."}) 
     }
     else{
    const passwordIsMatch = await bcrypt.compare(password,user.password)
    if(passwordIsMatch){
-   res.status(200).json({success:true,meassage:"You are successfully logged in",token:getnrateAccessToken(user.email)}) 
+   res.status(200).json({success:true,meassage:"You are successfully logged in",token:getnrateAccessToken(user._id)}) 
    }
    else{
    res.status(401).json({success:false,meassage:"Incorrect password"}) 
    }
     }
    }
-  catch(e){
-    //  console.log('er',e)
+  catch(err){
+     console.log('er',err)
     res.status(500).json({ error: "Internal Server Error"})
   }
   }

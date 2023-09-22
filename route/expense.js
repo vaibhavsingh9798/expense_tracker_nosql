@@ -4,13 +4,13 @@ const userauthonticate = require('../middleware/auth')
 
 const router = express.Router()
 
-router.get('/download',userauthonticate.authonticate,expenseController.downloadExpense)
+// router.get('/download',userauthonticate.authonticate,expenseController.downloadExpense)
 
-router.get('/allexpenses',userauthonticate.authonticate,expenseController.getExpense)
+router.get('/allexpenses',expenseController.getExpense)
 
-router.post('/addexpense',userauthonticate.authonticate,expenseController.postExpense)
+router.post('/addexpense',expenseController.postExpense)
 
-router.delete('/deleteexpense/:id',expenseController.deleteExpense)
+// router.delete('/deleteexpense/:id',expenseController.deleteExpense)
 
 
 

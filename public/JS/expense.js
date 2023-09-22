@@ -105,16 +105,16 @@ const getExpense = async () =>{
     ul.innerHTML=''
     try{
    let expresponse = await axios.get(`http://localhost:3001/expense/allexpenses`,{headers:{"Authorization":token}})
-    let response = await axios.get('http://localhost:3001/purchase/usercategory',{headers:{"Authorization":token}})
-   const usercategory = response.data
-   ispremiumuser = response.data
+//     let response = await axios.get('http://localhost:3001/purchase/usercategory',{headers:{"Authorization":token}})
+//    const usercategory = response.data
+//    ispremiumuser = response.data
   // console.log('usercategory>>>>>>>',usercategory) 
-   addPremiumButton(usercategory) 
-   addLeadeboard(usercategory) 
-   addTableButton(usercategory)                
+//    addPremiumButton(usercategory) 
+//    addLeadeboard(usercategory) 
+//    addTableButton(usercategory)                
   // print(item)
- // console.log('get resp',expresponse)
-  expresponse.data.expense.map((item)=> printExpense(item))
+  console.log('get resp', expresponse.data.expenses)
+  expresponse.data.expenses.map((item)=> printExpense(item)) //  
 }catch(error){
     console.error('error',error)
 }
@@ -123,7 +123,7 @@ const getExpense = async () =>{
 const postExpense = async (expense) => {
     try{
     let resp = await axios.post('http://localhost:3001/expense/addexpense',expense,{headers:{"Authorization":token}})
-   // console.log('post resp',resp)
+    console.log('post resp',resp)
     getExpense()
     }catch(error){
         console.error('error',error)
@@ -209,17 +209,17 @@ function addRowperPage(e){
 window.addEventListener('DOMContentLoaded',async ()=>{
     const page = 1
     try{
-    let expresponse = await axios.get(`${backendAPI}/expense/allexpenses?page=${page}`,{headers:{"Authorization":token}})
+   // let expresponse = await axios.get(`${backendAPI}/expense/allexpenses?page=${page}`,{headers:{"Authorization":token}})
               // console.log('window data load',expresponse.data)
               //  listProducts() // DOM manipulation
-                showPagination(expresponse.data)  
+              //  showPagination(expresponse.data)  
                getExpense()
     }catch(err){
         console.error('error',err)
     }
    // set limit per page
-    let pagerow = document.getElementById('rowperpage')
-    pagerow.addEventListener('click',addRowperPage)
+    // let pagerow = document.getElementById('rowperpage')
+    // pagerow.addEventListener('click',addRowperPage)
 })
  
 document.getElementById('rzp-button').onclick = async function(e){
