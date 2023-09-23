@@ -1,21 +1,24 @@
-const User = require('../model/user')
+const {User} = require('../model/user')
 const jwt = require('jsonwebtoken')
-require('dotenv').config()
+const mongdb = require('mongodb')
+
 
 const authonticate = async (req,res,next) =>{
     try{
- 
   let token =req.headers.authorization
-  const user = jwt.verify(token,process.env.SECRET_KEY)
-   //console.log('user>>>',user)
-   User.findByPk(user.userId).then(user => {
-    // console.log('find user',user)
-     req.user = user ;
-     next();
-   }).catch(err => console.log(err))
+  const payload = jwt.verify(token,process.env.SECRET_KEY)
+   let id = new mongdb.ObjectId(payload.userId) 
+    let user = await User.findUserbyID(id)
+    if(user){
+    console.log('user exit ...',user)
+    req.user = user[0];
+   next()
+    }
+
 }catch(err){
+  console.log('err',err)
   res.status(401).json({success:false,error:'unauthorized'})
 }
 }
 
-module.exports ={ authonticate}
+module.exports ={authonticate}

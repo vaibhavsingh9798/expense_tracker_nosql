@@ -93,9 +93,10 @@ const {Expense} = require('../model/expense')
 
 exports.getExpense = async (req,res) =>{
   try{
-     let expenses = await Expense.find()
+    let {_id} = req.user 
+   console.log('id..',_id)
+     let expenses = await Expense.find(_id)
      res.status(200).json({expenses})
-
   }catch(error){
     res.status(500).json({success:false})
   }
@@ -103,12 +104,14 @@ exports.getExpense = async (req,res) =>{
 
 exports.postExpense = async(req,res) =>{
     let {eamount,description,category} = req.body
-    console.log('recived',eamount,description,category)
+     console.log('req.user',req.user)
+     let {_id} = req.user || null
+    console.log('recived',eamount,description,category,_id)
     try{
-    let expObj = new Expense(eamount,category,description)
+    let expObj = new Expense(eamount,category,description,_id)
     let expense = await expObj.save()
     res.status(201).json({success:true,expense})
     }catch(error){
       res.status(500).json({success:false})
     }
-}
+} 

@@ -1,10 +1,10 @@
 const {getDb} = require('../util/database')
 class Expense{
-    constructor(eamount,category,description,email){
+    constructor(eamount,category,description,userId){
        this.eamount = eamount;
        this.category = category
        this.description = description
-       this.email = email
+       this.userId = userId;
     }
 
     async save(){
@@ -18,10 +18,10 @@ class Expense{
       
     }
 
-    static async find(email){
+    static async find(userId){
         let db = getDb()
         try{
-       let cursor = await db.collection('expense').find({"email":email})
+       let cursor = await db.collection('expense').find({"userId":userId})
        let documents;
        if(cursor)
        documents = cursor.toArray()

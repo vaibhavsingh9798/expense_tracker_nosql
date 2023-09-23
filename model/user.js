@@ -35,11 +35,14 @@
     static async  findUserbyID(id){
       const db = getDb()
       try{
+        console.log('id..',id)
      let cursor = await db.collection('users').find({"_id":id})
       let documents = null
      if(cursor)
-      documents = cursor.toArray()
+      documents = await cursor.toArray()
+     console.log('call findId..',documents)
      return documents
+     console.log('end..')
     }
     catch(err){
      console.error(err)
