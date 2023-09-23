@@ -10,7 +10,7 @@ router.get('/allexpenses',userauthonticate.authonticate,expenseController.getExp
 
 router.post('/addexpense',userauthonticate.authonticate,expenseController.postExpense)
 
-// router.delete('/deleteexpense/:id',expenseController.deleteExpense)
+ router.delete('/deleteexpense/:id',userauthonticate.authonticate,expenseController.deleteExpense)
 
 
 

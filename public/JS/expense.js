@@ -30,9 +30,11 @@ function printExpense(item){
     let delBtn = document.createElement('button')
     delBtn.appendChild(document.createTextNode('Delete'))
     delBtn.setAttribute('class','del float-right')
-    delBtn.setAttribute('id',item.id)
+    delBtn.setAttribute('id',item._id)
     li.appendChild(delBtn)
+    console.log(li)
     ul.appendChild(li)
+   
 }
 
 function addPremiumButton(premimum){
@@ -132,7 +134,7 @@ const postExpense = async (expense) => {
 
 const deleteExpense = async (id)=>{
     try{
-    let resp = await axios.delete(`http://localhost:3001/expense/deleteexpense/${id}`)
+    let resp = await axios.delete(`http://localhost:3001/expense/deleteexpense/${id}`,{headers:{"Authorization":token}})
     getExpense()
 }catch(error){
     console.error('error',error)

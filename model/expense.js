@@ -30,6 +30,17 @@ class Expense{
             throw err;
         }
     }
+
+    static async delete(expId){
+      let db = getDb()
+      try{
+     let result = await db.collection('expense').deleteOne({"_id":expId})
+     if(result)
+       return result
+      }catch(err){
+          throw err;
+      }
+    }
 }
 
 exports.Expense = Expense;

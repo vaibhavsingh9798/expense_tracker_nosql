@@ -1,4 +1,5 @@
 const {Expense} = require('../model/expense')
+const mongodb = require('mongodb')
 
 // const User = require('../model/user')
 // const DownloadFile = require('../model/downloadfile')
@@ -75,20 +76,22 @@ const {Expense} = require('../model/expense')
 
 //}
 
-// exports.deleteExpense = async (req,res)=>{
-//     let expid = req.params.id
-//     try{
-//     let expenseDetails = await Expense.findOne({attributes:['eamount','userId'],where:{id:expid}})
-//     //console.log('expD...',expenseDetails)
-//     let user = await User.findOne({where:{id:expenseDetails.userId}})
-//     let new_total = parseInt((user.totalexpense*1) - (expenseDetails.eamount*1))
-//     let updateUser = await User.update({totalexpense:new_total},{where:{id:expenseDetails.userId}})
-//     let resp = await Expense.destroy({where:{id:expid}})
-//     res.status(200).json(resp)
-//   }catch(error){
-//     res.status(500).json({success:false})
-// }
-// }
+exports.deleteExpense = async (req,res)=>{
+    let expId = req.params.id
+    expId = new mongodb.ObjectId(expId)
+    console.log('expId',expId)
+    try{
+   // let expenseDetails = await Expense.findOne({attributes:['eamount','userId'],where:{id:expid}})
+    //console.log('expD...',expenseDetails)
+  //  let user = await User.findOne({where:{id:expenseDetails.userId}})
+  //  let new_total = parseInt((user.totalexpense*1) - (expenseDetails.eamount*1))
+  //  let updateUser = await User.update({totalexpense:new_total},{where:{id:expenseDetails.userId}})
+    let resp = await Expense.delete(expId)
+    res.status(200).json(resp)
+  }catch(error){
+    res.status(500).json({success:false})
+}
+}
 
 
 exports.getExpense = async (req,res) =>{
