@@ -107,13 +107,13 @@ const getExpense = async () =>{
     ul.innerHTML=''
     try{
    let expresponse = await axios.get(`http://localhost:3001/expense/allexpenses`,{headers:{"Authorization":token}})
-//     let response = await axios.get('http://localhost:3001/purchase/usercategory',{headers:{"Authorization":token}})
-//    const usercategory = response.data
-//    ispremiumuser = response.data
-  // console.log('usercategory>>>>>>>',usercategory) 
-//    addPremiumButton(usercategory) 
-//    addLeadeboard(usercategory) 
-//    addTableButton(usercategory)                
+     let response = await axios.get('http://localhost:3001/purchase/usercategory',{headers:{"Authorization":token}})
+    const usercategory = response.data
+    ispremiumuser = response.data
+   console.log('usercategory>>>>>>>',usercategory) 
+   addPremiumButton(usercategory) 
+    addLeadeboard(usercategory) 
+    addTableButton(usercategory)                
   // print(item)
   console.log('get resp', expresponse.data.expenses)
   expresponse.data.expenses.map((item)=> printExpense(item)) //  
@@ -231,7 +231,7 @@ document.getElementById('rzp-button').onclick = async function(e){
     if(!ispremiumuser){
         try{
     let response = await axios.get(`http://localhost:3001/purchase/premiummembership`,{headers:{"Authorization":token}})
-  //console.log('resp44',response)
+  console.log('resp44',response)
 
   var options = {
     "key":response.data.key_id,

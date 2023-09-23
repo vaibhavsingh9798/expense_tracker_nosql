@@ -2,30 +2,30 @@ const {Expense} = require('../model/expense')
 const mongodb = require('mongodb')
 
 // const User = require('../model/user')
-// const DownloadFile = require('../model/downloadfile')
+ const DownloadFile = require('../model/downloadfile')
 // const sequelize = require('../util/database')
 // const AWS = require('aws-sdk')
 // const UserServices = require('../services/userservices')
-// const S3services = require('../services/S3services')
+ const S3services = require('../services/S3services')
 
 
-// exports.downloadExpense = async (req,res) =>{
-//   try{
-//   let userId = req.user.id;
-//   let expenses = await UserServices.getExpenses(req)
-//   //console.log('expenses',expenses)
-//   const stringifiedExpense = JSON.stringify(expenses)
-//   //console.log('strinfifiedExp',stringifiedExpense)
-//   let filename = `Expense${userId}/${new Date()}.txt`
-//   let fileURL = await S3services.uploadTos3(stringifiedExpense,filename)
-//   //console.log('fileURL...',fileURL)
-//   DownloadFile.create({userId,url:fileURL})
-//   res.status(200).json({fileURL,success:true})
-//   }catch(err){
-//    // console.log('dow err',err)
-//     res.status(500).json({fileURL:'',success:false})
-//   }
-// }  
+exports.downloadExpense = async (req,res) =>{
+  try{
+  let {_id} = req.user;
+  let expenses = await Expense.find(_id)
+  console.log('expenses',expenses)
+  const stringifiedExpense = JSON.stringify(expenses)
+  console.log('strinfifiedExp',stringifiedExpense)
+  let filename = `Expense${userId}/${new Date()}.txt`
+  let fileURL = await S3services.uploadTos3(stringifiedExpense,filename)
+  console.log('fileURL...',fileURL)
+  DownloadFile.create({userId,url:fileURL})
+  res.status(200).json({fileURL,success:true})
+  }catch(err){
+    console.log('dow err',err)
+    res.status(500).json({fileURL:'',success:false})
+  }
+}  
   
 
 

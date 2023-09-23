@@ -1,5 +1,4 @@
 const AWS = require('aws-sdk')
-require('dotenv').config();
 const uploadTos3 = async(fileData,fName) =>{
   
     // 1) Configure AWS SDK with my IAM credentials
