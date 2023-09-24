@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const {User} = require('../model/user')
+const User = require('../model/user')
 const saltRounds = 10;
 
 
@@ -8,14 +8,14 @@ exports.signup = async (req,res)=>{
   const {name,email,password} = req.body;
   console.log('data..',name,email,password)
   try{
-  let user = await User.find(email)
-  console.log('user..',user)
-  if(user === null){
-    console.log('not exist..')
+ let user = await User.findOne({email:email})
+ console.log('user..',user)
+ if(!user){
+   console.log('not exist..')
      let hasedPassword = await bcrypt.hash(password,saltRounds)
-      user = new User(name,email,hasedPassword)
+    let  user = new User({name:name,email:email,password:hasedPassword})
     let response = await  user.save()
-    console.log('save result', result)
+    console.log('save result', response)
     res.status(201).json(response)
   } 
  else{
@@ -23,7 +23,7 @@ exports.signup = async (req,res)=>{
  }
 }
 catch(err){
-   // console.log('er',e)
+    console.log('er',err)
    throw err 
 }
 }
@@ -35,13 +35,11 @@ let getnrateAccessToken = (id)=>{
 
 exports.signin = async (req,res)=>{
     const {email,password} = req.body;
-   // console.log('data..',email,password)
+    console.log('data>>',email,password)
     try{
-     let user = await User.find(email)
-     user = user[0]
-      let userId = await User.findUserbyID(user._id)
-     console.log('user...',user)
-     console.log('userId...',userId)
+     let user = await User.findOne({email:email})
+    //  user = user[0]
+    console.log('user>>',user)
     if(!user){
       res.status(404).json({success:false,meassage:"The email address you entered isn't connected to an account."}) 
     }

@@ -8,11 +8,13 @@ const fs = require('fs')
 const path = require('path')
 require('dotenv').config()
 
-const  mongodbConnect = require('./util/database').mongodbConnect
+const mongoose = require('mongoose')
 
- const userRoute = require('./route/user')
- const expenseRoute = require('./route/expense')
- const purchaseRoute = require('./route/purchase')
+  const userRoute = require('./route/user')
+//  const expenseRoute = require('./route/expense')
+//  const purchaseRoute = require('./route/purchase')
+const { throws } = require('assert')
+const { error } = require('console')
 // const premiumuserRoute = require('./route/premiumuser')
 // const passwordRoute = require('./route/resetpassword')
 
@@ -28,9 +30,9 @@ app.use(compression())
 const accessLogStream =  fs.createWriteStream(path.join(__dirname,'access.log'),{flags:'a'})
 app.use(morgan('combined',{stream: accessLogStream}))
 
-app.use('/user',userRoute)
- app.use('/expense',expenseRoute)
- app.use('/purchase',purchaseRoute)
+ app.use('/user',userRoute)
+//  app.use('/expense',expenseRoute)
+//  app.use('/purchase',purchaseRoute)
 // app.use('/premium',premiumuserRoute)
 // app.use('/password',passwordRoute)
 
@@ -55,9 +57,15 @@ app.use('/user',userRoute)
 // })
 // .catch(err => console.log(err))
 
-mongodbConnect(()=>{
+// mongodbConnect(()=>{
+//     app.listen(3001,()=>{
+//         console.log('Server Started at 3001')
+//     })
+// })
+mongoose.connect(process.env.URI)
+.then(()=>{
     app.listen(3001,()=>{
         console.log('Server Started at 3001')
     })
 })
-
+.catch(err => console.log(err))
