@@ -14,6 +14,12 @@ const userSchema = new Schema({
    password:{
      type: String,
      require:true
+   },
+   ispremiumuser: {
+    type:Boolean
+   },
+   totalexpense:{
+    type :Number
    }
 })
 

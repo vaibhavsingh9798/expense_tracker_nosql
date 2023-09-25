@@ -1,18 +1,18 @@
-const {User} = require('../model/user')
+const User = require('../model/user')
 const jwt = require('jsonwebtoken')
-const mongdb = require('mongodb')
+const mongoose = require('mongoose')
 
 
 const authonticate = async (req,res,next) =>{
     try{
   let token =req.headers.authorization
   const payload = jwt.verify(token,process.env.SECRET_KEY)
-   let id = new mongdb.ObjectId(payload.userId) 
-    let user = await User.findUserbyID(id)
+   let id = new  mongoose.Types.ObjectId(payload.userId)
+    let user = await User.findById(id)
     if(user){
     console.log('user exit ...',user)
-    req.user = user[0];
-   next()
+    req.user = user;
+    next()
     }
 
 }catch(err){

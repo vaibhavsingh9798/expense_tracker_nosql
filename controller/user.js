@@ -13,7 +13,7 @@ exports.signup = async (req,res)=>{
  if(!user){
    console.log('not exist..')
      let hasedPassword = await bcrypt.hash(password,saltRounds)
-    let  user = new User({name:name,email:email,password:hasedPassword})
+    let  user = new User({name:name,email:email,password:hasedPassword,ispremiumuser:false,totalexpense:0})
     let response = await  user.save()
     console.log('save result', response)
     res.status(201).json(response)

@@ -26,7 +26,7 @@ function printExpense(item){
     let ul = document.getElementById('expenses')
     let li = document.createElement('li')
     li.setAttribute('class','list-group-item m-1')
-    li.appendChild(document.createTextNode(`${item.eamount} - ${item.description} - ${item.category}`))
+    li.appendChild(document.createTextNode(`${item.amount} - ${item.description} - ${item.category}`))
     let delBtn = document.createElement('button')
     delBtn.appendChild(document.createTextNode('Delete'))
     delBtn.setAttribute('class','del float-right')
@@ -115,7 +115,8 @@ const getExpense = async () =>{
     addLeadeboard(usercategory) 
     addTableButton(usercategory)                
   // print(item)
-  console.log('get resp', expresponse.data.expenses)
+  console.log('get resp', expresponse)
+  if(expresponse.data.expenses)
   expresponse.data.expenses.map((item)=> printExpense(item)) //  
 }catch(error){
     console.error('error',error)
@@ -193,6 +194,7 @@ async function getProducts(page){
                 let ul = document.getElementById('expenses')
                 ul.innerHTML = ''
              //  getExpense() 
+             if(expresponse.data.expense.length)
              expresponse.data.expense.map((item)=> printExpense(item))
 
     }catch(err){
@@ -232,6 +234,7 @@ document.getElementById('rzp-button').onclick = async function(e){
         try{
     let response = await axios.get(`http://localhost:3001/purchase/premiummembership`,{headers:{"Authorization":token}})
   console.log('resp44',response)
+  console.log('res44..',response.data.key_id,response.data.order.id) // options.order_id
 
   var options = {
     "key":response.data.key_id,

@@ -1,9 +1,8 @@
-const {Expense} = require('../model/expense')
-const mongodb = require('mongodb')
-
+const Expense = require('../model/expense')
+const mongoose = require('mongoose')
+const User = require('../model/user')
 // const User = require('../model/user')
  const DownloadFile = require('../model/downloadfile')
-// const sequelize = require('../util/database')
 // const AWS = require('aws-sdk')
 // const UserServices = require('../services/userservices')
  const S3services = require('../services/S3services')
@@ -78,17 +77,20 @@ exports.downloadExpense = async (req,res) =>{
 
 exports.deleteExpense = async (req,res)=>{
     let expId = req.params.id
-    expId = new mongodb.ObjectId(expId)
+    expId = new mongoose.Types.ObjectId(expId)
     console.log('expId',expId)
     try{
-   // let expenseDetails = await Expense.findOne({attributes:['eamount','userId'],where:{id:expid}})
+    let expenseDetails = await Expense.findById(expId)
     //console.log('expD...',expenseDetails)
-  //  let user = await User.findOne({where:{id:expenseDetails.userId}})
-  //  let new_total = parseInt((user.totalexpense*1) - (expenseDetails.eamount*1))
-  //  let updateUser = await User.update({totalexpense:new_total},{where:{id:expenseDetails.userId}})
-    let resp = await Expense.delete(expId)
+    let user = await User.findById(req.user._id)
+    let new_total = +user.totalexpense - +expenseDetails.amount
+      new_total = new_total<0 ? 0 : new_total
+    console.log('total',new_total)
+    let updateUser = await User.findByIdAndUpdate(req.user._id,{totalexpense:new_total})
+    let resp = await Expense.deleteOne({_id:expId})
     res.status(200).json(resp)
   }catch(error){
+    console.log('err',error)
     res.status(500).json({success:false})
 }
 }
@@ -98,7 +100,8 @@ exports.getExpense = async (req,res) =>{
   try{
     let {_id} = req.user 
    console.log('id..',_id)
-     let expenses = await Expense.find(_id)
+     let expenses = await Expense.find({userId:_id})
+     console.log('expense...',expenses) 
      res.status(200).json({expenses})
   }catch(error){
     res.status(500).json({success:false})
@@ -108,10 +111,17 @@ exports.getExpense = async (req,res) =>{
 exports.postExpense = async(req,res) =>{
     let {eamount,description,category} = req.body
      console.log('req.user',req.user)
-     let {_id} = req.user || null
+     let {_id} = req.user 
     console.log('recived',eamount,description,category,_id)
     try{
-    let expObj = new Expense(eamount,category,description,_id)
+      // update total expense
+      let user = await User.findById(_id)
+      console.log('user',user)
+      let newTotal = +eamount + (+user.totalexpense || 0)
+      console.log('newTotal',newTotal)
+      let updatedTotal = await  User.updateOne({_id:_id},{totalexpense:newTotal})
+      console.log('updatedTotal',updatedTotal)
+    let expObj = new Expense({amount:eamount,category:category,description:description,userId:_id})
     let expense = await expObj.save()
     res.status(201).json({success:true,expense})
     }catch(error){
