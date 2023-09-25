@@ -1,5 +1,16 @@
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
+const FileUrl = new Schema({
+  url:{
+    type: String
+  },
+  userId:{
+    type: mongoose.Types.ObjectId
+  }  
+})
 
+module.exports = mongoose.model('FileUrl',FileUrl)
 
 // const {getDb} = require('../util/database')
 

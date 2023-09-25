@@ -1,8 +1,7 @@
 const Expense = require('../model/expense')
 const mongoose = require('mongoose')
 const User = require('../model/user')
-// const User = require('../model/user')
- const DownloadFile = require('../model/downloadfile')
+ const FileUrl = require('../model/downloadfile')
 // const AWS = require('aws-sdk')
 // const UserServices = require('../services/userservices')
  const S3services = require('../services/S3services')
@@ -11,14 +10,14 @@ const User = require('../model/user')
 exports.downloadExpense = async (req,res) =>{
   try{
   let {_id} = req.user;
-  let expenses = await Expense.find(_id)
-  console.log('expenses',expenses)
+  let expenses = await Expense.find({userId:_id})
+  console.log('expenses',_id,expenses)
   const stringifiedExpense = JSON.stringify(expenses)
   console.log('strinfifiedExp',stringifiedExpense)
-  let filename = `Expense${userId}/${new Date()}.txt`
+  let filename = `Expense${_id}/${new Date()}.txt`
   let fileURL = await S3services.uploadTos3(stringifiedExpense,filename)
   console.log('fileURL...',fileURL)
-  DownloadFile.create({userId,url:fileURL})
+  let fileurl = new FileUrl({url:fileURL,userId:_id})
   res.status(200).json({fileURL,success:true})
   }catch(err){
     console.log('dow err',err)
