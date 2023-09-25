@@ -51,26 +51,7 @@ exports.downloadExpense = async (req,res) =>{
 //       }
 // }
 
-// exports.postExpense = async(req,res) =>{
-//   let t = await sequelize.transaction() // transaction();
-//   let new_total=0;
-//   const userId = req.user.id
-//     let {eamount,description,category} = req.body
-//  try{
-//   let resp = await  Expense.create({eamount,description,category,userId},{transaction:t})
-//     let existuser = await User.findOne({where:{id:userId}})
-//      let old_total = parseInt(existuser.totalexpense)
-//       new_total  = parseInt((old_total*1)+(eamount*1));
-//     let updateuser = await User.update({totalexpense:new_total},{where:{id:userId},transaction:t})
-//     await t.commit() // check both staisfy then update both db 
-//    res.status(201).json(resp)
-//  }
-//  catch(err){
-//   await t.rollback() // roallback mean does't update db
-//   res.status(500).json({success:false,meassage:err})
-//  }
 
-//}
 
 exports.deleteExpense = async (req,res)=>{
     let expId = req.params.id
@@ -94,12 +75,33 @@ exports.deleteExpense = async (req,res)=>{
 
 
 exports.getExpense = async (req,res) =>{
+  const perPage  = +req.query.maxItem || 2
+  const  page = +req.query.page || 1;
+  console.log('page...',page,perPage)
   try{
     let {_id} = req.user 
    console.log('id..',_id)
-     let expenses = await Expense.find({userId:_id})
-     console.log('expense...',expenses) 
-     res.status(200).json({expenses})
+   let totalCount  = await Expense.countDocuments()
+   const totalPages = Math.ceil(totalCount / perPage);
+      // Validate the page number
+      if (page < 1 || page > totalPages) {
+        return res.status(400).json({ error: 'Invalid page number' });
+      }
+
+       // Perform pagination query
+    const Expenses = await Expense
+    .find({userId:req.user._id})
+    .skip((page - 1) * perPage)
+    .limit(perPage);
+    res.status(200).json({
+             expense:Expenses,
+             currentPage:page,
+             hasNextPage: perPage*page < totalCount,
+             nextPage: page + 1,
+             hasPreviousPage: page > 1,
+             previousPage: page -1,
+            lastPage: totalPages
+          })
   }catch(error){
     res.status(500).json({success:false})
   }
