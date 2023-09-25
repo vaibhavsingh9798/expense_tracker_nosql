@@ -2,8 +2,6 @@ const Expense = require('../model/expense')
 const mongoose = require('mongoose')
 const User = require('../model/user')
  const FileUrl = require('../model/downloadfile')
-// const AWS = require('aws-sdk')
-// const UserServices = require('../services/userservices')
  const S3services = require('../services/S3services')
 
 

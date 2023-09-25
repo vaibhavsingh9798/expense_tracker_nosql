@@ -14,7 +14,7 @@ const mongoose = require('mongoose')
   const expenseRoute = require('./route/expense')
   const purchaseRoute = require('./route/purchase')
  const premiumuserRoute = require('./route/premiumuser')
-// const passwordRoute = require('./route/resetpassword')
+ 
 
 const app = express()
 
@@ -32,14 +32,7 @@ app.use(morgan('combined',{stream: accessLogStream}))
   app.use('/expense',expenseRoute)
   app.use('/purchase',purchaseRoute)
  app.use('/premium',premiumuserRoute)
-// app.use('/password',passwordRoute)
 
-
-// mongodbConnect(()=>{
-//     app.listen(3001,()=>{
-//         console.log('Server Started at 3001')
-//     })
-// })
 mongoose.connect(process.env.URI)
 .then(()=>{
     app.listen(3001,()=>{

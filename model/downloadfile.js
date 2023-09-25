@@ -6,7 +6,8 @@ const FileUrl = new Schema({
     type: String
   },
   userId:{
-    type: mongoose.Types.ObjectId
+    type: mongoose.Types.ObjectId,
+    ref: 'User'
   }  
 })
 
